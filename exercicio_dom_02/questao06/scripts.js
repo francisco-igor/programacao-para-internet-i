@@ -18,7 +18,7 @@ function validar(redes, lista) {
         }
     }
 
-    if (texto === '') {
+    if (texto == '') {
         lista.textContent = '';
         alert('Nenhuma rede social selecionada.');
     } else {

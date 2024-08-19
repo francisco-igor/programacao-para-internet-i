@@ -8,14 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function carregar(input, id) {
+function carregar(input, resultado) {
     const arquivo = input.files[0];
     if (arquivo) {
         const img = document.createElement('img');
         img.src = URL.createObjectURL(arquivo);
         img.style.width = '500px';
-        id.appendChild(img);
+        resultado.innerHTML = '';
+        resultado.appendChild(img);
     } else {
-        id.innerHTML = 'Nenhum arquivo selecionado';
+        resultado.innerHTML = 'Nenhum arquivo selecionado';
     }
 }

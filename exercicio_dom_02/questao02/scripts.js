@@ -7,16 +7,18 @@ function exibirConteudo() {
     var conteudo = document.getElementById('caixaDeTexto').value.trim();
 
     if (conteudo == '' || conteudo == null) {
-        lancarErro('Campo vazio. Digite alguma coisa...');
+        exibirErro('Campo vazio. Digite alguma coisa...');
     } else {
         document.getElementById('conteudo').innerHTML = conteudo;
     }
 }
 
-function lancarErro(msg) {
-    var x = document.getElementById("snackbar");
-    x.textContent = msg;
-    x.className = "show";
+function exibirErro(msg) {
+    let erro = document.getElementById("msgErro");
+    erro.textContent = msg;
+    erro.className = "show";
 
-    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    setTimeout(function () { 
+        erro.className = erro.className.replace("show", ""); 
+    }, 3000);
 }

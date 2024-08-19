@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Calculador de Engajamento</title>
+</head>
+
+<body>
+    <h1>Calcule a taxa de engajamento do seu feed</h1>
+
+    <div class="group">
+        <label for="interacoes">Número de Interações (Curtidas, Comentários, Compartilhamentos):</label>
+        <input type="number" id="interacoes">
+    </div>
+
+    <div class="group">
+        <label for="visualizacoes">Número de Visualizações:</label>
+        <input type="number" id="visualizacoes">
+    </div>
+
+    <button id="calcularBtn" class="botao">Calcular</button>
+
+    <div id="resultado"></div>
+    
+    <div id="msgErro"></div>
+</body>
+
+</html>

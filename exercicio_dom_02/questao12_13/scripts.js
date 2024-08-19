@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const descricaoTarefa = document.getElementById('descricaoTarefa').value.trim();
         
         if (descricaoTarefa === '') {
-            alert('Digite uma descrição para a tarefa.');
+            exibirErro('Digite uma descrição para a tarefa...');
             return;
         }
 
@@ -51,17 +51,17 @@ function adicionarLinha(tabela, tarefa) {
     const colunaDataConclusao = novaLinha.insertCell(3);
     const colunaAcoes = novaLinha.insertCell(4);
 
-    colunaId.innerText = tarefa.id;
-    colunaDescricao.innerText = tarefa.descricao;
-    colunaDataInicio.innerText = tarefa.dataInicio;
-    colunaDataConclusao.innerText = tarefa.dataConclusao;
+    colunaId.textContent = tarefa.id;
+    colunaDescricao.textContent = tarefa.descricao;
+    colunaDataInicio.textContent = tarefa.dataInicio;
+    colunaDataConclusao.textContent = tarefa.dataConclusao;
 
     const concluirBtn = document.createElement('button');
-    concluirBtn.innerText = 'Concluir';
+    concluirBtn.textContent = 'Concluir';
     concluirBtn.className = 'concluirBtn';
 
     const excluirBtn = document.createElement('button');
-    excluirBtn.innerText = 'Excluir';
+    excluirBtn.textContent = 'Excluir';
     excluirBtn.className = 'excluirBtn';
 
     colunaAcoes.appendChild(concluirBtn);
@@ -90,7 +90,7 @@ function concluirTarefa(tarefa, colunaDataConclusao) {
     const dataFormatada = `${dia}/${mes}/${ano}`;
 
     tarefa.dataConclusao = dataFormatada;
-    colunaDataConclusao.innerText = dataFormatada;
+    colunaDataConclusao.textContent = dataFormatada;
 }
 
 
@@ -98,4 +98,15 @@ function excluirTarefa(linha) {
     if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
         linha.remove();
     }
+}
+
+
+function exibirErro(msg) {
+    var erro = document.getElementById("msgErro");
+    erro.textContent = msg;
+    erro.className = "show";
+
+    setTimeout(function () { 
+        erro.className = erro.className.replace("show", ""); 
+    }, 3000);
 }
