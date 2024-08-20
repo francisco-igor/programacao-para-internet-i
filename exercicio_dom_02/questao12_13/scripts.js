@@ -1,42 +1,42 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const tabelaTarefas = document.getElementById('tabelaTarefas').getElementsByTagName('tbody')[0];
-    const adicionarBtn = document.getElementById('adicionarBtn');
-    let listaTarefas = [];
-    let idCounter = 1;
+    const adicionarBtn = $('adicionarBtn');
 
-    const tarefa = {
-        id: 0,
-        descricao: '',
-        dataInicio: '',
-        dataConclusao: ''
-    };
-
-    adicionarBtn.addEventListener('click', function () {
-        const descricaoTarefa = document.getElementById('descricaoTarefa').value.trim();
-        
-        if (descricaoTarefa === '') {
-            exibirErro('Digite uma descrição para a tarefa...');
-            return;
-        }
-
-        adicionarTarefa(tarefa, descricaoTarefa, listaTarefas, tabelaTarefas, idCounter);
-        idCounter++;
-    });
+    adicionarBtn.addEventListener('click', adicionarTarefa);
 });
 
 
-function adicionarTarefa(tarefa, descricao, listaTarefas, tabelaTarefas, idCounter) {
+const tarefa = {
+    id: 0,
+    descricao: '',
+    dataInicio: '',
+    dataConclusao: ''
+};
+
+let idCounter = 1;
+const listaTarefas = [];
+
+
+function adicionarTarefa() {
+    const tabelaTarefas = $('tabelaTarefas').getElementsByTagName('tbody')[0];
+    const descricaoTarefa = $('descricaoTarefa').value.trim();
+
+    if (descricaoTarefa == '') {
+        exibirErro('Digite uma descrição para a tarefa...');
+        return;
+    }
+
     const dataAtual = new Date();
     const dia = dataAtual.getDate();
     const mes = dataAtual.getMonth() + 1;
     const ano = dataAtual.getFullYear();
     const dataFormatada = `${dia}/${mes}/${ano}`;
 
-    tarefa.id = idCounter;
-    tarefa.descricao = descricao;
+    tarefa.id = idCounter++;
+    tarefa.descricao = descricaoTarefa;
     tarefa.dataInicio = dataFormatada;
 
     listaTarefas.push(tarefa);
+    console.log(listaTarefas);
     adicionarLinha(tabelaTarefas, tarefa);
 }
 
@@ -67,46 +67,78 @@ function adicionarLinha(tabela, tarefa) {
     colunaAcoes.appendChild(concluirBtn);
     colunaAcoes.appendChild(excluirBtn);
 
-    adicionarClick(concluirBtn, function () {
-        concluirTarefa(tarefa, colunaDataConclusao);
-    });
+    concluirBtn.onclick = function () {
+        concluirTarefa(tarefa.id, tabela, concluirBtn);
+    };
 
-    adicionarClick(excluirBtn, function () {
-        excluirTarefa(novaLinha);
-    });
+    excluirBtn.onclick = function () {
+        excluirTarefa(tarefa.id, tabela);
+    };
 }
 
 
-function adicionarClick(elemento, funcao) {
-    elemento.addEventListener('click', funcao);
-}
+function concluirTarefa(id, tabela, botao) {
+    const linha = tabela.querySelector(`[data-id='${id}']`);
+    const colunaDataConclusao = linha.cells[3];
 
-
-function concluirTarefa(tarefa, colunaDataConclusao) {
-    const dataConclusao = new Date();
-    const dia = dataConclusao.getDate();
-    const mes = dataConclusao.getMonth() + 1;
-    const ano = dataConclusao.getFullYear();
+    const dataAtual = new Date();
+    const dia = dataAtual.getDate();
+    const mes = dataAtual.getMonth() + 1;
+    const ano = dataAtual.getFullYear();
     const dataFormatada = `${dia}/${mes}/${ano}`;
-
-    tarefa.dataConclusao = dataFormatada;
     colunaDataConclusao.textContent = dataFormatada;
+
+    trocarBotao(botao, 'reabrirBtn', 'Reabrir', function () {
+        reabrirTarefa(id, tabela, botao);
+    });
 }
 
 
-function excluirTarefa(linha) {
+function reabrirTarefa(id, tabela, botao) {
+    const linha = tabela.querySelector(`[data-id='${id}']`);
+    const colunaDataConclusao = linha.cells[3];
+
+    colunaDataConclusao.textContent = '';
+
+    trocarBotao(botao, 'concluirBtn', 'Concluir', function () {
+        concluirTarefa(id, tabela, botao);
+    });
+}
+
+
+function excluirTarefa(id, tabela) {
+    const linha = tabela.querySelector(`[data-id='${id}']`);
+    const colunaDataConclusao = linha.cells[3];
+
+    if (colunaDataConclusao.textContent != '') {
+        exibirErro('Não é possível excluir uma tarefa concluída...');
+        return;
+    }
+
     if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
         linha.remove();
     }
 }
 
 
+function $(nome) {
+    return document.getElementById(nome);
+}
+
+
+function trocarBotao(botao, classe, texto, novaFuncao) {
+    botao.className = classe;
+    botao.textContent = texto;
+    botao.onclick = novaFuncao;
+}
+
+
 function exibirErro(msg) {
-    var erro = document.getElementById("msgErro");
+    var erro = $("msgErro");
     erro.textContent = msg;
     erro.className = "show";
 
-    setTimeout(function () { 
-        erro.className = erro.className.replace("show", ""); 
+    setTimeout(function () {
+        erro.className = erro.className.replace("show", "");
     }, 3000);
 }

@@ -22,10 +22,16 @@ function calcular(interacoes, visualizacoes) {
 }
 
 function validar(campo) {
-    if (isNaN(campo) || campo == '') {
+    if (campo == '' || campo == null) {
+        exibirErro('Preencha os campos...');
+        return false;
+    }
+
+    if (isNaN(campo)) {
         exibirErro('Insira valores válidos...');
         return false;
     }
+
     return true;
 }
 

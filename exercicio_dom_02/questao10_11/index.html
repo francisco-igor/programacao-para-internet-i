@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="scripts.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" type="module"></script>
+    <link rel="stylesheet" href="styles/error.css">
+    <link rel="stylesheet" href="styles/layout.css">
     <title>Carteira Digital</title>
 </head>
 
@@ -28,14 +29,16 @@
             </select>
         </div>
         <div class="buttons">
-            <button id="moverParaDireitaBtn">></button>
-            <button id="moverParaEsquerdaBtn"><</button>
+            <button id="moverParaDireitaBtn"">></button>
+            <button id="moverParaEsquerdaBtn""><</button>
         </div>
         <div>
             <label for="carteiraInvestimentos">Carteira de Investimentos:</label>
             <select id="carteiraInvestimentos" size="10" multiple></select>
         </div>
     </div>
+
+    <div id="msgErro"></div>
 </body>
 
 </html>

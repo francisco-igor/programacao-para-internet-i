@@ -89,9 +89,7 @@ function removerHashtag() {
     const selecionadas = [];
 
     for (let opcao of opcoes) {
-        if (opcao.selected) {
-            selecionadas.push(opcao);
-        }
+        selecionadas.push(opcao);
     }
 
     for (let item of selecionadas) {
