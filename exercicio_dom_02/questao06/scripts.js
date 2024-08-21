@@ -1,27 +1,62 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const redes = document.getElementsByName('redesSociais');
-    const botao = document.getElementById('enviarBtn');
-    const lista = document.createElement('p');
-    document.body.appendChild(lista);
+document.addEventListener('DOMContentLoaded', function () {
 
-    botao.addEventListener('click', function() {
-        validar(redes, lista);
-    });
+    const botao = document.getElementById('enviarBtn');
+
+    botao.addEventListener('click', adicionarRedes);
 });
 
-function validar(redes, lista) {
-    let texto = '';
+
+function adicionarRedes() {
+    const redes = document.getElementsByName('redesSociais');
+    const selecionadas = validarChecked(redes);
+
+    if (selecionadas.length == 0) {
+        alert('Selecione pelo menos uma rede social.');
+        return;
+    }
+
+    let lista = document.getElementById('lista');
+
+    if (lista == null) {
+        lista = document.createElement('h2');
+        lista.setAttribute('id', 'lista');
+    }
+    document.body.appendChild(lista);
+
+    lista.textContent = redesSelecionadas(selecionadas);
+}
+
+
+function validarChecked(redes) {
+    let selecionadas = [];
 
     for (let rede of redes) {
         if (rede.checked) {
-            texto += rede.value + ' ';
+            selecionadas.push(rede);
         }
     }
 
-    if (texto == '') {
-        lista.textContent = '';
-        alert('Nenhuma rede social selecionada.');
-    } else {
-        lista.textContent = 'As redes escolhidas foram: ' + texto.trim();
+    return selecionadas;
+}
+
+
+function redesSelecionadas(redes) {
+    let texto = 'As redes sociais selecionadas foram: ';
+
+    for (let i = 0; i < redes.length; i++) {
+        texto += redes[i].value;
+
+        if (i == redes.length - 2 && redes.length < 3) {
+            texto += ' e ';
+        } 
+        else if (i < redes.length - 2) {
+            texto += ', ';
+        } 
+        else if (i == redes.length - 2) {
+            texto += ' e ';
+        }
     }
+    texto += '.';
+
+    return texto;
 }

@@ -1,15 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
+    
     const calcularBtn = document.getElementById('calcularBtn');
 
-    calcularBtn.addEventListener('click', function () {
-        const interacoes = document.getElementById('interacoes').value.trim();
-        const visualizacoes = document.getElementById('visualizacoes').value.trim();
-        
-        calcular(interacoes, visualizacoes);
-    });
+    calcularBtn.addEventListener('click', calcular);
 });
 
-function calcular(interacoes, visualizacoes) {
+function calcular() {
+    const interacoes = document.getElementById('interacoes').value.trim();
+    const visualizacoes = document.getElementById('visualizacoes').value.trim();
+
     if (!validar(interacoes) || !validar(visualizacoes)) {
         return;
     }
@@ -17,7 +16,7 @@ function calcular(interacoes, visualizacoes) {
     const resultado = document.getElementById('resultado');
     const taxaEngajamento = (interacoes / visualizacoes) * 100;
 
-    resultado.textContent = `Taxa de Engajamento: ${taxaEngajamento}`;
+    resultado.textContent = `Taxa de Engajamento: ${taxaEngajamento.toFixed(0)}`;
     resultado.className = 'showoff';
 }
 

@@ -1,48 +1,23 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const adicionarBtn = $('adicionarBtn');
 
+    const adicionarBtn = $('adicionarBtn');
+    
     adicionarBtn.addEventListener('click', adicionarTarefa);
 });
 
-
-const tarefa = {
-    id: 0,
-    descricao: '',
-    dataInicio: '',
-    dataConclusao: ''
-};
 
 let idCounter = 1;
 const listaTarefas = [];
 
 
 function adicionarTarefa() {
-    const tabelaTarefas = $('tabelaTarefas').getElementsByTagName('tbody')[0];
-    const descricaoTarefa = $('descricaoTarefa').value.trim();
+    const tabela = document.querySelector('tbody');
+    const descricaoTarefa = document.getElementById('descricaoTarefa').value.trim();
 
-    if (descricaoTarefa == '') {
-        exibirErro('Digite uma descrição para a tarefa...');
-        return;
-    }
+    const tarefa = criarTarefa(descricaoTarefa);
+    if (!tarefa) return;
 
-    const dataAtual = new Date();
-    const dia = dataAtual.getDate();
-    const mes = dataAtual.getMonth() + 1;
-    const ano = dataAtual.getFullYear();
-    const dataFormatada = `${dia}/${mes}/${ano}`;
-
-    tarefa.id = idCounter++;
-    tarefa.descricao = descricaoTarefa;
-    tarefa.dataInicio = dataFormatada;
-
-    listaTarefas.push(tarefa);
-    console.log(listaTarefas);
-    adicionarLinha(tabelaTarefas, tarefa);
-}
-
-
-function adicionarLinha(tabela, tarefa) {
-    let novaLinha = tabela.insertRow();
+    const novaLinha = tabela.insertRow();
     novaLinha.setAttribute('data-id', tarefa.id);
 
     const colunaId = novaLinha.insertCell(0);
@@ -64,16 +39,32 @@ function adicionarLinha(tabela, tarefa) {
     excluirBtn.textContent = 'Excluir';
     excluirBtn.className = 'excluirBtn';
 
-    colunaAcoes.appendChild(concluirBtn);
-    colunaAcoes.appendChild(excluirBtn);
+    colunaAcoes.append(concluirBtn, excluirBtn);
 
-    concluirBtn.onclick = function () {
-        concluirTarefa(tarefa.id, tabela, concluirBtn);
+    concluirBtn.onclick = () => concluirTarefa(tarefa.id, tabela, concluirBtn);
+    excluirBtn.onclick = () => excluirTarefa(tarefa.id, tabela);
+
+    document.getElementById('descricaoTarefa').value = '';
+}
+
+
+function criarTarefa(descricaoTarefa) {
+
+    if (descricaoTarefa == '' || descricaoTarefa == null) {
+        exibirErro('Digite uma descrição para a tarefa...');
+        return;
+    }
+
+    const dataInicio = formatarData();
+
+    const tarefa = {
+        id: idCounter++,
+        descricao: descricaoTarefa,
+        dataInicio: dataInicio,
+        dataConclusao: ''
     };
 
-    excluirBtn.onclick = function () {
-        excluirTarefa(tarefa.id, tabela);
-    };
+    return tarefa;
 }
 
 
@@ -81,12 +72,7 @@ function concluirTarefa(id, tabela, botao) {
     const linha = tabela.querySelector(`[data-id='${id}']`);
     const colunaDataConclusao = linha.cells[3];
 
-    const dataAtual = new Date();
-    const dia = dataAtual.getDate();
-    const mes = dataAtual.getMonth() + 1;
-    const ano = dataAtual.getFullYear();
-    const dataFormatada = `${dia}/${mes}/${ano}`;
-    colunaDataConclusao.textContent = dataFormatada;
+    colunaDataConclusao.textContent = formatarData();
 
     trocarBotao(botao, 'reabrirBtn', 'Reabrir', function () {
         reabrirTarefa(id, tabela, botao);
@@ -118,6 +104,17 @@ function excluirTarefa(id, tabela) {
     if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
         linha.remove();
     }
+}
+
+
+function formatarData() {
+    const dataAtual = new Date();
+    const dia = String(dataAtual.getDate()).padStart(2, '0');
+    const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+    const ano = dataAtual.getFullYear();
+    const dataFormatada = `${dia}/${mes}/${ano}`;
+
+    return dataFormatada;
 }
 
 

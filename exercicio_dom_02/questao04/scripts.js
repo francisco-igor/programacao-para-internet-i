@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const arquivoSelecionado = document.getElementById('uploadImagem');
-    const resultado = document.getElementById('resultado');
+    
     const botao = document.getElementById('btnCarregar');
 
-    botao.addEventListener('click', function () {
-        carregar(arquivoSelecionado, resultado);
-    });
+    botao.addEventListener('click', carregar);
 });
 
-function carregar(input, resultado) {
-    const arquivo = input.files[0];
-    if (arquivo) {
+function carregar() {
+    const arquivo = document.getElementById('uploadImagem');
+    const resultado = document.getElementById('resultado');
+    const arquivoSelecionado = arquivo.files[0];
+
+    if (arquivoSelecionado) {
         const img = document.createElement('img');
-        img.src = URL.createObjectURL(arquivo);
+        img.src = URL.createObjectURL(arquivoSelecionado);
         img.style.width = '500px';
         resultado.innerHTML = '';
         resultado.appendChild(img);

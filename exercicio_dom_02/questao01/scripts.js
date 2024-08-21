@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let msg = 'Mensagem de Erro alterada';
+
+    const msg = 'Mensagem de Erro alterada';
 
     document.getElementById('botaoErro').addEventListener('click', function() {
         exibirErro('mensagemErro', msg);
@@ -7,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function exibirErro(id, msg) {
-    var errorMessage = document.getElementById(id);
+    const errorMessage = document.getElementById(id);
     errorMessage.textContent = msg;
     errorMessage.classList.remove('oculto');
 

@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function atualizarBotoes() {
         atualizarEstado(moverParaDireitaBtn, ativosDisponiveis.options.length);
         atualizarEstado(moverParaEsquerdaBtn, carteiraInvestimentos.options.length);
+        console.log('Atualizou');
     }
 
     atualizarBotoes();
